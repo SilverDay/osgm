@@ -1,0 +1,42 @@
+# =============================================================================
+# OSGridManager — .gitignore
+# =============================================================================
+
+# --- Configuration (contains credentials) ---
+config/config.php
+
+# --- Logs ---
+/var/log/
+*.log
+
+# --- Uploads (stored outside webroot, but just in case) ---
+/var/lib/
+
+# --- PHP artifacts ---
+*.swp
+*.swo
+*~
+
+# --- Claude Code project files ---
+.claude/
+
+# --- IDE / Editor ---
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+
+# --- OS ---
+.DS_Store
+desktop.ini
+
+# --- Dependencies (no Composer, but guard anyway) ---
+vendor/
+composer.lock
+
+# --- Build / cache ---
+*.cache
+*.tmp
+/cache/
+/tmp/

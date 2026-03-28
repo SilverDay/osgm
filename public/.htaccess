@@ -1,0 +1,30 @@
+Options -Indexes -ExecCGI
+DirectoryIndex index.php
+
+# Route all requests through the front controller
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L,QSA]
+
+# Block hidden files and directories
+RewriteRule (^|/)\. - [F,L]
+
+# Disable ETags (prevent fingerprinting via inode/mtime)
+FileETag None
+
+# Cache static assets for 30 days
+<FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$">
+    Header set Cache-Control "public, max-age=2592000, immutable"
+</FilesMatch>
+
+# Never cache PHP responses
+<FilesMatch "\.php$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+</FilesMatch>
+
+# Block direct access to sensitive file types that should never be served
+<FilesMatch "\.(sql|log|ini|env|lock|json|md|sh|bak|swp)$">
+    Require all denied
+</FilesMatch>
