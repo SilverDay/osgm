@@ -70,9 +70,13 @@ OGM\Core\Session::start($request);
 $router = new OGM\Core\Router();
 
 // -- Auth --
-$router->get('/login',        [\OGM\Modules\User\UserController::class, 'showLogin']);
-$router->post('/auth/login',  [\OGM\Modules\User\UserController::class, 'processLogin']);
-$router->get('/auth/logout',  [\OGM\Modules\User\UserController::class, 'logout']);
+$router->get('/login',           [\OGM\Modules\User\UserController::class, 'showLogin']);
+$router->post('/auth/login',     [\OGM\Modules\User\UserController::class, 'processLogin']);
+$router->post('/auth/logout',    [\OGM\Modules\User\UserController::class, 'logout']); // POST only — GET logout is a CSRF risk
+
+// -- Account --
+$router->get('/account',         [\OGM\Modules\User\UserController::class, 'showAccount']);
+$router->post('/account/update', [\OGM\Modules\User\UserController::class, 'updateAccount']);
 
 // -- Home --
 $router->get('/', [\OGM\Modules\User\UserController::class, 'home']);
@@ -81,14 +85,10 @@ $router->get('/', [\OGM\Modules\User\UserController::class, 'home']);
 // Dispatch
 // ---------------------------------------------------------------------------
 
-// Load module controllers on demand (no Composer — explicit requires)
-// Controllers are loaded lazily here; modules will add their own requires
-// once implemented. For Phase 1, we load a placeholder UserController.
-
-$userControllerPath = $appRoot . '/src/Modules/User/UserController.php';
-if (file_exists($userControllerPath)) {
-    require_once $userControllerPath;
-}
+// Module requires — explicit, no Composer autoloader.
+// Order: Model before Controller (controller depends on model).
+require_once $appRoot . '/src/Modules/User/UserModel.php';
+require_once $appRoot . '/src/Modules/User/UserController.php';
 
 $matched = false;
 try {
