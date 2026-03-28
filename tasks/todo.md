@@ -31,12 +31,13 @@ Status: `[ ]` open · `[x]` done · `[!]` blocked
 ---
 
 ## Phase 2: User & Auth
-- [ ] `src/Modules/User/UserModel.php`
-- [ ] `src/Modules/User/UserController.php`
-- [ ] `templates/user/login.php`
-- [ ] `templates/user/logout.php`
-- [ ] `templates/user/account.php`
-- [ ] Test: login with OpenSim credentials
+- [x] `src/Modules/User/UserModel.php`
+- [x] `src/Modules/User/UserController.php`
+- [x] `templates/user/login.php`
+- [x] `templates/user/account.php`
+- [x] `templates/home.php`
+- [x] `schema/migrations/003_grid_tagline.sql`
+- [ ] Test: login with OpenSim credentials (needs live DB)
 
 ## Phase 2b: Registration & User Levels
 - [ ] `src/Core/Mailer.php`

@@ -30,6 +30,27 @@
 
 ---
 
+## 006 — Logout is POST-only
+**Date:** 2026-03-28
+**Decision:** `GET /auth/logout` removed; only `POST /auth/logout` accepted.
+**Rationale:** A GET logout endpoint is a CSRF vulnerability — any `<img src="/auth/logout">` on any page can log users out silently. The layout already emitted a POST form with a CSRF token; the route registration in Phase 1 was the error.
+
+---
+
+## 007 — Two-query pattern for UserModel::findByUuid
+**Date:** 2026-03-28
+**Decision:** `findByUuid` uses two separate queries (opensimRo for UserAccounts, ogmRo for ogm_profiles) merged in PHP — no cross-database JOIN.
+**Rationale:** A cross-DB JOIN would require granting `opensim_ro` SELECT on the OGM database. Separate queries keep DB user privileges cleanly scoped.
+
+---
+
+## 008 — Audit log is controller responsibility
+**Date:** 2026-03-28
+**Decision:** `writeAuditLog` is a static helper on UserModel but called exclusively from UserController. Models do data access; controllers handle business logic and audit trails.
+**Rationale:** Clean separation of concerns. Models must not know about the audit log.
+
+---
+
 ## 005 — Migration system over single schema file
 **Date:** 2026-03-28
 **Decision:** Incremental numbered SQL files in `schema/migrations/` tracked by `ogm_migrations` table.
